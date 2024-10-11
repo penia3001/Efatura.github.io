@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Arşiv Portalı</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 30px;
+            background: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .invoice-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .invoice-item strong {
+            color: #555;
+        }
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>E-Arşiv Portalı</h2>
+    <div class="alert alert-success" id="successMessage">Fatura başarıyla kaydedildi!</div>
+    <div id="authSection">
+        <h4>Fatura Oluştur</h4>
+        <form id="invoiceForm">
+            <div class="form-group">
+                <label for="faturaNo">Fatura No:</label>
+                <input type="text" class="form-control" id="faturaNo" required>
+            </div>
+            <div class="form-group">
+                <label for="musteriAdi">Müşteri Adı:</label>
+                <input type="text" class="form-control" id="musteriAdi" required>
+            </div>
+            <div class="form-group">
+                <label for="musteriSoyadi">Müşteri Soyadı:</label>
+                <input type="text" class="form-control" id="musteriSoyadi" required>
+            </div>
+            <div class="form-group">
+                <label for="tarih">Fatura Tarihi:</label>
+                <input type="date" class="form-control" id="tarih" required>
+            </div>
+            <div class="form-group">
+                <label for="urunAd">Ürün Adı:</label>
+                <input type="text" class="form-control" id="urunAd" required>
+            </div>
+            <div class="form-group">
+                <label for="urunAdet">Ürün Adeti:</label>
+                <input type="number" class="form-control" id="urunAdet" required>
+            </div>
+            <div class="form-group">
+                <label for="urunFiyat">Ürün Fiyatı (₺):</label>
+                <input type="number" class="form-control" id="urunFiyat" step="0.01" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Faturayı Kaydet</button>
+        </form>
+
+        <div class="invoice-list mt-4">
+            <h3>Kaydedilen Faturalar:</h3>
+            <div id="invoiceList" class="mt-2"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#invoiceForm').on('submit', function(event) {
+            event.preventDefault();
+            const faturaNo = $('#faturaNo').val();
+            const musteriAdi = $('#musteriAdi').val();
+            const musteriSoyadi = $('#musteriSoyadi').val();
+            const tarih = $('#tarih').val();
+            const urunAd = $('#urunAd').val();
+            const urunAdet = $('#urunAdet').val();
+            const urunFiyat = $('#urunFiyat').val();
+
+            // Faturayı listeye ekle
+            $('#invoiceList').append(`
+                <div class="invoice-item">
+                    <strong>Fatura No:</strong> ${faturaNo}<br>
+                    <strong>Müşteri Adı:</strong> ${musteriAdi} ${musteriSoyadi}<br>
+                    <strong>Tarih:</strong> ${tarih}<br>
+                    <strong>Ürün:</strong> ${urunAd}<br>
+                    <strong>Adet:</strong> ${urunAdet}<br>
+                    <strong>Fiyat:</strong> ₺${urunFiyat}<br>
+                </div>
+            `);
+
+            // Başarı mesajını göster
+            $('#successMessage').fadeIn().delay(2000).fadeOut();
+
+            // Formu temizle
+            $('#invoiceForm')[0].reset();
+        });
+    });
+</script>
+
+</body>
+</html>
